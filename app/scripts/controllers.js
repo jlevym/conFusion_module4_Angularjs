@@ -93,7 +93,25 @@ angular.module('confusionApp')
             }
         }])
 
-        // implement the IndexController and About Controller here
+            .controller('AboutController', ['$scope', '$rootScope', '$stateParams', 'corporateFactory',function($scope, $rootScope, $stateParams, corporateFactory) {
+
+            $scope.leaders = corporateFactory.getLeaders();
+            $rootScope.leader = corporateFactory.getLeader(3);
+ 
+         }])
+
+        // implement the IndexController 
+        .controller('IndexController', ['$scope', '$stateParams',  'menuFactory', function($scope, $stateParams, menuFactory) {
+             
+           $scope.dish = menuFactory.getDish(0);  
+            
+           $scope.promotion = menuFactory.getPromotion(0);
 
 
+        }])
+
+
+
+
+         //http://stackoverflow.com/questions/20181323/passing-data-between-controllers-in-angular-js
 ;
