@@ -120,8 +120,8 @@ angular.module('confusionApp')
         // implement the IndexController 
         .controller('IndexController', ['$scope','menuFactory','corporateFactory' , function($scope, menuFactory, corporateFactory) {
                 $scope.showDish = false;
-                        $scope.message="Loading ...";
-                        $scope.dish = menuFactory.getDishes().get({id:0})
+                $scope.message="Loading ...";
+                $scope.dish = menuFactory.getDishes().get({id:0})
                         .$promise.then(
                             function(response){
                                 $scope.dish = response;
@@ -131,8 +131,31 @@ angular.module('confusionApp')
                                 $scope.message = "Error: "+response.status + " " + response.statusText;
                             }
                         );
+
+
+                //starting the promotion method for home.html
+                $scope.showPromotion = false;
+                $scope.message="Loading ...";
+                $scope.promotion = menuFactory.getPromotion().get({id:0})
+                        .$promise.then(
+                            function(response){
+                                $scope.promotion = response;
+                                $scope.showPromotion = true;
+                            },
+                            function(response) {
+                                $scope.message = "Error: "+response.status + " " + response.statusText;
+                            }
+                        );        
+
            
-           $scope.promotion = menuFactory.getPromotion(0);
+          
+
+
+
+
+
+
+
            $scope.leader = corporateFactory.getLeader(3);
            
 
