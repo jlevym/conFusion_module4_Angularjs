@@ -10,13 +10,13 @@ angular.module('confusionApp')
 
             $scope.showMenu = false;
             $scope.message = "Loading ...";
-                        menuFactory.getDishes().query(
-                function(response) {
-                    $scope.dishes = response;
-                    $scope.showMenu = true;
-                },
-                function(response) {
-                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                menuFactory.getDishes().query(
+                    function(response) {
+                        $scope.dishes = response;
+                        $scope.showMenu = true;
+                    },
+                    function(response) {
+                        $scope.message = "Error: "+response.status + " " + response.statusText;
                 });
           
 
@@ -80,39 +80,51 @@ angular.module('confusionApp')
 
         .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
 
-              $scope.showDish = false;
-            $scope.message="Loading ...";
+                        $scope.showDish = false;
+                        $scope.message="Loading ...";
                         $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
-            .$promise.then(
-                            function(response){
-                                $scope.dish = response;
-                                $scope.showDish = true;
-                            },
-                            function(response) {
-                                $scope.message = "Error: "+response.status + " " + response.statusText;
-                            }
-            );
-           
-            
+                            .$promise.then(
+                                function(response){
+                                    $scope.dish = response;
+                                    $scope.showDish = true;
+                                },
+                                function(response) {
+                                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                                }
+                        );           
         }])
 
         .controller('DishCommentController', ['$scope', 'menuFactory', function($scope,menuFactory) {
             
-            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             
-             $scope.submitComment = function () {
-                                $scope.mycomment.date = new Date().toISOString();
-                console.log($scope.mycomment);
-                                $scope.dish.comments.push($scope.mycomment);
+                $scope.submitComment = function () {
+                        $scope.mycomment.date = new Date().toISOString();
+                        console.log($scope.mycomment);
+                        $scope.dish.comments.push($scope.mycomment);
 
-                menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
-                                $scope.commentForm.$setPristine();
-                                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+                        menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+                                        $scope.commentForm.$setPristine();
+                                        $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             }
         }])
 
             .controller('AboutController', ['$scope', 'corporateFactory',function($scope, corporateFactory) {
-            $scope.leaders = corporateFactory.getLeaders();
+                    //$scope.leaders = corporateFactory.getLeaders();
+
+               
+
+            //use this example from dishes;
+              $scope.showLeader = false;
+                $scope.message = "Loading ...";
+                        corporateFactory.getLeaders().query(
+                function(response) {
+                    $scope.leaders = response;
+                    $scope.showLeader = true;
+                },
+                function(response) {
+                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                });            
            
  
          }])
@@ -148,22 +160,18 @@ angular.module('confusionApp')
                         );        
 
            
-          
-
-
-
-
-
-
-
-           $scope.leader = corporateFactory.getLeader(3);
-           
-
-
+                //starting the leader method for home.html
+                $scope.showLeader = false;
+                $scope.message="Loading ...";
+                $scope.leader = corporateFactory.getLeaders().get({id:1})
+                        .$promise.then(
+                            function(response){
+                                $scope.leader = response;
+                                $scope.showLeader = true;
+                            },
+                            function(response) {
+                                $scope.message = "Error: "+response.status + " " + response.statusText;
+                            }
+                        );        
         }])
-
-
-
-
-         //http://stackoverflow.com/questions/20181323/passing-data-between-controllers-in-angular-js
 ;
