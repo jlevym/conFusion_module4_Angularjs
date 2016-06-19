@@ -58,11 +58,15 @@ angular.module('confusionApp')
                         
         }])
 
-        .controller('FeedbackController', ['$scope', function($scope) {
+        .controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope, feedbackFactory) {
             
+
+
             $scope.sendFeedback = function() {
                 
-                console.log($scope.feedback);
+
+                console.log( "at line 64",$scope.feedback);
+
                 
                 if ($scope.feedback.agree && ($scope.feedback.mychannel == "")) {
                     $scope.invalidChannelSelection = true;
@@ -70,10 +74,14 @@ angular.module('confusionApp')
                 }
                 else {
                     $scope.invalidChannelSelection = false;
-                    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+                   
+                    feedbackFactory.getFeedback().save($scope.feedback, function(){
+                        alert("your feedback has been saved");
+                        });
+
                     $scope.feedback.mychannel="";
+                    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
                     $scope.feedbackForm.$setPristine();
-                    console.log($scope.feedback);
                 }
             };
         }])
@@ -104,8 +112,8 @@ angular.module('confusionApp')
                         $scope.dish.comments.push($scope.mycomment);
 
                         menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
-                                        $scope.commentForm.$setPristine();
-                                        $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+                        $scope.commentForm.$setPristine();
+                        $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             }
         }])
 
